@@ -88,15 +88,11 @@ export class PublishDeploymentTplComponent {
           this.clusters.push(state.cluster);
         });
       } else {
-        Object.getOwnPropertyNames(replicas).map(key => {
-          if ((actionType === ResourcesActionType.PUBLISH || this.getStatusByCluster(deploymentTpl.status, key) != null)
-            && this.cacheService.namespace.metaDataObj && this.cacheService.namespace.metaDataObj.clusterMeta[key]) {
-            // 后端配置的集群才会显示出来
-            const clusterMeta = new ClusterMeta(false);
-            clusterMeta.value = replicas[key];
-            this.clusterMetas[key] = clusterMeta;
-            this.clusters.push(key);
-          }
+        Object.getOwnPropertyNames(this.cacheService.namespace.metaDataObj.clusterMeta).map(key => {
+          const clusterMeta = new ClusterMeta(false);
+          clusterMeta.value = replicas[key];
+          this.clusterMetas[key] = clusterMeta;
+          this.clusters.push(key);
         });
       }
 

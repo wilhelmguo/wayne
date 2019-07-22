@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { DaemonSet } from '../../../shared/model/v1/daemonset';
 import { TemplateStatus } from '../../../shared/model/v1/status';
-import { Cluster } from '../../../shared/model/v1/cluster';
+import { Cluster, ClusterMeta } from '../../../shared/model/v1/cluster';
 import { DaemonSetTemplate } from '../../../shared/model/v1/daemonsettpl';
 import { KubeDaemonSet } from '../../../shared/model/v1/kubernetes/daemonset';
 
@@ -56,16 +56,10 @@ export class PublishDaemonSetTplComponent {
     this.daemonSet = daemonSet;
     if (actionType === ResourcesActionType.PUBLISH) {
       this.title = '发布守护进程集[' + this.daemonSet.name + ']';
-      if (!daemonSet.metaData) {
-        this.messageHandlerService.warning('请先配置可发布集群');
-        return;
-      }
-      const metaData = JSON.parse(daemonSet.metaData);
-      for (const cluster of metaData.clusters) {
-        if (this.cacheService.namespace.metaDataObj && this.cacheService.namespace.metaDataObj.clusterMeta[cluster]) {
-          this.clusters.push(new Cluster(cluster, false));
-        }
-      }
+      this.modalOpened = true;
+      Object.getOwnPropertyNames(this.cacheService.namespace.metaDataObj.clusterMeta).map(key => {
+        this.clusters.push(new Cluster(key, false));
+      });
     } else if (actionType === ResourcesActionType.OFFLINE) {
       this.title = '下线守护进程集[' + this.daemonSet.name + ']';
       for (const state of daemonSetTpl.status) {

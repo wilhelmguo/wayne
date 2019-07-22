@@ -44,19 +44,10 @@ export class PublishTemplate {
     this.forceOffline = false;
     if (actionType === ResourcesActionType.PUBLISH) {
       this.title = `发布 ${this.resourceType} [` + resource.name + ']';
-      if (!resource.metaData) {
-        this.messageHandlerService.warning('请先配置可发布集群');
-        return;
-      }
+      Object.getOwnPropertyNames(this.cacheService.namespace.metaDataObj.clusterMeta).map(key => {
+        this.clusters.push(new Cluster(key, false));
+      });
       this.modalOpened = true;
-      const metaData = JSON.parse(resource.metaData);
-      for (const cluster of metaData.clusters) {
-        if (this.cacheService.namespace.metaDataObj && this.cacheService.namespace.metaDataObj.clusterMeta[cluster]) {
-          const c = new Cluster();
-          c.name = cluster;
-          this.clusters.push(c);
-        }
-      }
 
     } else if (actionType === ResourcesActionType.OFFLINE) {
       this.title = `下线 ${this.resourceType} [` + resource.name + ']';

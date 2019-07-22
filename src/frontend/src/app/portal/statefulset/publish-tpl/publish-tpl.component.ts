@@ -90,14 +90,11 @@ export class PublishStatefulsetTplComponent {
           this.clusterMetas[state.cluster] = new ClusterMeta(false);
         });
       } else {
-        Object.getOwnPropertyNames(replicas).map(key => {
-          if ((actionType === ResourcesActionType.PUBLISH || this.getStatusByCluster(statefulsetTpl.status, key) != null)
-            && this.cacheService.namespace.metaDataObj && this.cacheService.namespace.metaDataObj.clusterMeta[key]) {
-            const clusterMeta = new ClusterMeta(false);
-            clusterMeta.value = replicas[key];
-            this.clusterMetas[key] = clusterMeta;
-            this.clusters.push(key);
-          }
+        Object.getOwnPropertyNames(this.cacheService.namespace.metaDataObj.clusterMeta).map(key => {
+          const clusterMeta = new ClusterMeta(false);
+          clusterMeta.value = replicas[key];
+          this.clusterMetas[key] = clusterMeta;
+          this.clusters.push(key);
         });
       }
     }

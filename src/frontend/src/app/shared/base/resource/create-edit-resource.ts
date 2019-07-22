@@ -187,7 +187,6 @@ export class CreateEditResource {
     return this.currentForm.valid &&
       !this.isSubmitOnGoing &&
       this.isNameValid &&
-      !this.checkOnGoing &&
-      this.isClusterValid();
+      !this.checkOnGoing;
   }
 }

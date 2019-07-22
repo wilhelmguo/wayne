@@ -85,7 +85,6 @@ export class CreateEditLimitResource extends CreateEditResource {
       !this.isSubmitOnGoing &&
       this.isNameValid &&
       !this.checkOnGoing &&
-      this.isClusterValid() &&
       this.isClusterReplicaValid();
   }
 

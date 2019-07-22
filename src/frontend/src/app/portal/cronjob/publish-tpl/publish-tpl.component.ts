@@ -65,15 +65,11 @@ export class PublishCronjobTplComponent {
           this.clusterMetas[state.cluster] = new ClusterMeta(false);
         });
       } else if (actionType === ResourcesActionType.PUBLISH) {
-        Object.getOwnPropertyNames(replicas).map(key => {
-          if (this.cacheService.namespace.metaDataObj && this.cacheService.namespace.metaDataObj.clusterMeta[key]) {
-            const clusterMeta = new ClusterMeta(false);
-            // 发布数量固定为1
-            // clusterMeta.value = replicas[key];
-            clusterMeta.value = 1;
-            this.clusterMetas[key] = clusterMeta;
-            this.clusters.push(key);
-          }
+        Object.getOwnPropertyNames(this.cacheService.namespace.metaDataObj.clusterMeta).map(key => {
+          const clusterMeta = new ClusterMeta(false);
+          clusterMeta.value = replicas[key];
+          this.clusterMetas[key] = clusterMeta;
+          this.clusters.push(key);
         });
       }
 
