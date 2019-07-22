@@ -12,11 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const apiReq = request.clone({
-      url: resolve(request.url.indexOf('assets/') > -1
-        ? '/'
-        : (window as any).CONFIG.URL, request.url)
-    });
+    const apiReq = request.clone({});
     return from(this.handleAccess(apiReq, next));
   }
 
