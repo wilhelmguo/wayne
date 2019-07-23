@@ -7,8 +7,7 @@ var PROXY_CONFIG = [
       "/api",
       "/openapi",
       "/ws",
-      "/healthz",
-      "/session"
+      "/healthz"
     ],
     target: "http://localhost:8080",
     secure: false,
