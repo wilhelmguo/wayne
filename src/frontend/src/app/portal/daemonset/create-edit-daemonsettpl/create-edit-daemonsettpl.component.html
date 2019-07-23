@@ -72,10 +72,7 @@
             <span [translate]="'RULE.MEMORY'" [translateParams]="{value: memoryLimit}" class="tooltip-content">
             </span>
           </label>
-          <label class="clr-col-md-4">G&nbsp;&nbsp;&nbsp;
-            <label
-              style="color: red">price: {{container.resources.limits.memory * memoryUnitPrice | number:'1.2-2'}}{{'UNIT.PRICE' | translate}}</label>
-          </label>
+          <label class="clr-col-md-4">G</label>
         </div>
         <div class="form-group form-group-padding">
           <label class="clr-col-md-3 form-group-label-override required">{{'TEMPLATE.CORE_NUM' | translate}}</label>
@@ -88,10 +85,7 @@
             <span [translate]="'RULE.CPU' | translate" [translateParams]="{value: cpuLimit}" class="tooltip-content">
             </span>
           </label>
-          <label class="clr-col-md-4">{{'UNIT.CORE' | translate}}&nbsp;&nbsp;&nbsp;
-            <label
-              style="color: red">price: {{container.resources.limits.cpu * cpuUnitPrice | number:'1.2-2'}}{{'UNIT.PRICE' | translate}}</label>
-          </label>
+          <label class="clr-col-md-4">{{'UNIT.CORE' | translate}}&nbsp;&nbsp</label>
         </div>
 
       </div>
@@ -416,7 +410,5 @@
   <button type="button" class="btn btn-primary" (click)="openModal()">{{'BUTTON.ADVANCED_CONFIG' | translate}}</button>
   <button type="button" class="btn btn-primary" [disabled]="!isValid"
           (click)="onSubmit()">{{'BUTTON.SUBMIT' | translate}}</button>
-  <span
-    style="color: red">{{'TEMPLATE.PRICE_TOTAL' | translate}}{{totalFee | number:'1.2-2' }}{{'UNIT.PRICE' | translate}}</span>
 </div>
 <wayne-ace-editor (outputObj)="saveDaemonSet($event)"></wayne-ace-editor>
