@@ -25,13 +25,16 @@ export class ListServiceComponent extends KubernetesListResource {
 
   getPort(obj: KubeService) {
     const result = Array<string>();
-    for (const port of obj.spec.ports) {
-      if (port.nodePort) {
-        result.push(`${port.targetPort}:${port.port}:${port.nodePort}/${port.protocol}`);
-      } else {
-        result.push(`${port.targetPort}:${port.port}/${port.protocol}`);
+    if (obj.spec.ports) {
+      for (const port of obj.spec.ports) {
+        if (port.nodePort) {
+          result.push(`${port.targetPort}:${port.port}:${port.nodePort}/${port.protocol}`);
+        } else {
+          result.push(`${port.targetPort}:${port.port}/${port.protocol}`);
+        }
       }
     }
+
     return result.join(', ');
   }
 }
