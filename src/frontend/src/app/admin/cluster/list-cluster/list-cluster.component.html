@@ -9,6 +9,11 @@
      {{'TITLE.NAME' | translate}}
     </ng-container>
   </clr-dg-column>
+  <clr-dg-column>
+    <ng-container *clrDgHideableColumn="{hidden: false}">
+      中文名称
+    </ng-container>
+  </clr-dg-column>
   <clr-dg-column class="col-host">
     <ng-container *clrDgHideableColumn="{hidden: false}">
       Master
@@ -51,8 +56,16 @@
     </clr-dg-action-overflow>
     <clr-dg-cell class="col-id">{{cluster.id}}</clr-dg-cell>
     <clr-dg-cell class="col-cluster-name copy">{{cluster.name}}</clr-dg-cell>
+    <clr-dg-cell>{{cluster.alias}}</clr-dg-cell>
     <clr-dg-cell class="col-host">{{cluster.master}}</clr-dg-cell>
-    <clr-dg-cell>{{getClusterStatus(cluster.status)}}</clr-dg-cell>
+    <clr-dg-cell>
+      <span class="label label-light-blue"
+            [class.label-danger]="cluster.state === 'Offline'"
+            [class.label-success]="cluster.state === 'Ready'"
+            [class.label-warning]="cluster.state === 'NotReady' || cluster.state === ''">
+                  {{cluster.state}}
+      </span>
+    </clr-dg-cell>
     <clr-dg-cell class="col-metadata">
       <div class="text-overflow">
         <a href="javascript:;" (click)="detailMetaDataTpl(cluster.kubeConfig)">{{cluster.kubeConfig}}</a>

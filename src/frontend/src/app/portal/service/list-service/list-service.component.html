@@ -10,6 +10,11 @@
       创建时间
     </ng-container>
   </clr-dg-column>
+  <clr-dg-column>
+    <ng-container>
+      类型
+    </ng-container>
+  </clr-dg-column>
   <clr-dg-column class="col-port">
     <ng-container *clrDgHideableColumn="showState['端口号']">
       端口号
@@ -38,6 +43,7 @@
   <clr-dg-row *ngFor="let serviceTpl of serviceTpls" [clrDgItem]="serviceTpl">
     <clr-dg-cell class="col-id">{{serviceTpl.id}}</clr-dg-cell>
     <clr-dg-cell class="col-time">{{serviceTpl.createTime | date:'yyyy-MM-dd HH:mm:ss'}}</clr-dg-cell>
+    <clr-dg-cell>{{serviceTpl.type}}</clr-dg-cell>
     <clr-dg-cell class="col-port">{{serviceTpl.ports}}</clr-dg-cell>
 
     <clr-dg-cell class="col-cluster">

@@ -30,7 +30,8 @@ import {
   ConfirmationState,
   ConfirmationTargets,
   httpStatusCode,
-  KubeResourceService, PublishType,
+  KubeResourceService,
+  PublishType,
   syncStatusInterval,
   TemplateState
 } from '../../shared/shared.const';
@@ -383,11 +384,12 @@ export class ServiceComponent implements AfterContentInit, OnInit, OnDestroy {
         const service: KubeService = JSON.parse(tpls[i].template);
         if (service.spec.ports && service.spec.ports.length > 0) {
           const ports = Array<string>();
-          for (const port of  service.spec.ports) {
+          for (const port of service.spec.ports) {
             ports.push(`${port.port}:${port.targetPort}/${port.protocol}`);
           }
           tpls[i].ports = ports.join(', ');
         }
+        tpls[i].type = service.spec.type;
         const publishStatus = this.tplStatusMap[tpls[i].id];
         if (publishStatus && publishStatus.length > 0) {
           tpls[i].status = publishStatus;

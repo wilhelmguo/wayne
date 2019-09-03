@@ -1,6 +1,7 @@
 export class Cluster {
   id: number;
   name: string;
+  alias: string;
   master: string;
   metaData: string;
   kubeConfig: string;
@@ -8,6 +9,7 @@ export class Cluster {
   robinUrl: string;
   deleted: boolean;
   status: number;
+  state: string;
   description: string;
   createTime: Date;
   checked: boolean;

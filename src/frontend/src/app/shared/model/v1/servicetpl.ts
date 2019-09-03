@@ -14,6 +14,7 @@ export class ServiceTpl {
   service: Service;
 
   ports: string;
+  type: string;
   status: PublishStatus[];
 }
 
