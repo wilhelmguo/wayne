@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { KubernetesListResource } from '../../../../shared/base/kubernetes-namespaced/kubernetes-list-resource';
 import { TplDetailService } from '../../../../shared/tpl-detail/tpl-detail.service';
-import { KubeService } from '../../../../../../lib/shared/model/kubernetes/service';
+import { KubeService } from '../../../../shared/model/v1/kubernetes/service';
 
 @Component({
   selector: 'wayne-list-endpoint',

@@ -57,7 +57,6 @@ import { ConfigSystemComponent } from './config/list-config-system/config-system
 import { KubernetesDashboardComponent } from './kubernetes/dashboard/dashboard.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NodesComponent } from './kubernetes/node/nodes.component';
-import { ADMINROUTES } from '../../../lib/admin/library-routing-admin';
 import { IngressComponent } from './ingress/ingress.component';
 import { TrashIngressComponent } from './ingress/trash-ingress/trash-ingress.component';
 import { IngressTplComponent } from './ingresstpl/ingresstpl.component';
@@ -88,6 +87,10 @@ import { KubeServiceaccountComponent } from './kubernetes/serviceaccount/kube-se
 import { KubeClusterroleComponent } from './kubernetes/clusterrole/kube-clusterrole.component';
 import { KubeClusterrolebindingComponent } from './kubernetes/clusterrolebinding/kube-clusterrolebinding.component';
 import { KubeCrdComponent } from './kubernetes/crd/kube-crd.component';
+import { ServiceComponent } from './service/service.component';
+import { TrashServiceComponent } from './service/trash-service/trash-service.component';
+import { ServiceTplComponent } from './servicetpl/servicetpl.component';
+import { TrashServiceTplComponent } from './servicetpl/trash-servicetpl/trash-servicetpl.component';
 
 
 const routes: Routes = [
@@ -208,7 +211,12 @@ const routes: Routes = [
       {path: 'kubernetes/clusterrolebinding/:cluster', component: KubeClusterrolebindingComponent},
       {path: 'kubernetes/customresourcedefinition', component: KubeCrdComponent},
       {path: 'kubernetes/customresourcedefinition/:cluster', component: KubeCrdComponent},
-      ...ADMINROUTES
+      {path: 'service/app/:aid', component: ServiceComponent},
+      {path: 'service', component: ServiceComponent},
+      {path: 'service/trash', component: TrashServiceComponent},
+      {path: 'service/tpl', component: ServiceTplComponent},
+      {path: 'service/tpl/trash', component: TrashServiceTplComponent},
+      {path: 'service/relate-tpl/:sid', component: ServiceTplComponent},
     ]
   }
 ];

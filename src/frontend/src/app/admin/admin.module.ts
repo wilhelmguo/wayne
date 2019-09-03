@@ -33,7 +33,6 @@ import { KubernetesDashboardModule } from './kubernetes/dashboard/dashboard.modu
 import { NavModule } from './nav/nav.module';
 import { NotificationModule } from './notification/notification.module';
 import { NodesModule } from './kubernetes/node/nodes.module';
-import { LibraryAdminModule } from '../../../lib/admin/library-admin.module';
 import { IngressModule } from './ingress/ingress.module';
 import { IngressTplModule } from './ingresstpl/ingresstpl.module';
 import { KubeDeploymentModule } from './kubernetes/deployment/kube-deployment.module';
@@ -68,6 +67,8 @@ import { KubeServiceaccountModule } from './kubernetes/serviceaccount/kube-servi
 import { KubeClusterroleModule } from './kubernetes/clusterrole/kube-clusterrole.module';
 import { KubeClusterrolebindingModule } from './kubernetes/clusterrolebinding/kube-clusterrolebinding.module';
 import { KubeCrdModule } from './kubernetes/crd/kube-crd.module';
+import { ServiceTplModule } from './servicetpl/servicetpl.module';
+import { ServiceModule } from './service/service.module';
 
 @NgModule({
   imports: [
@@ -103,7 +104,6 @@ import { KubeCrdModule } from './kubernetes/crd/kube-crd.module';
     NotificationModule,
     NodesModule,
     KubeNamespaceModule,
-    LibraryAdminModule,
     IngressModule,
     IngressTplModule,
     KubeDeploymentModule,
@@ -130,7 +130,9 @@ import { KubeCrdModule } from './kubernetes/crd/kube-crd.module';
     KubeClusterroleModule,
     KubeClusterrolebindingModule,
     KubeNamespaceModule,
-    KubeCrdModule
+    KubeCrdModule,
+    ServiceTplModule,
+    ServiceModule
   ],
   providers: [
     AdminAuthCheckGuard,

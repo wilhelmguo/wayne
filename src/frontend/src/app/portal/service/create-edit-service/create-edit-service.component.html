@@ -1,0 +1,49 @@
+<clr-modal [(clrModalOpen)]="modalOpened">
+  <h3 class="modal-title">{{title}}</h3>
+  <div class="modal-body">
+    <form #ngForm="ngForm">
+      <section class="form-block">
+        <div class="form-group" style="padding-left: 135px;">
+          <label class="clr-col-md-3 form-group-label-override required" for="name">名称</label>
+          <label [class.invalid]="!isNameValid" aria-haspopup="true" class="tooltip tooltip-validation tooltip-md tooltip-bottom-left form-control" for="name"
+                 role="tooltip">
+            <label *ngIf="app && actionType==0 && nameGenerateRuleConfig=='join'">{{app.name}}-</label>
+            <input (keyup)='checkNameValid()' [(ngModel)]="resource.name" [readonly]="actionType==1"
+                   id="name"
+                   maxlength="64"
+                   name="name"
+                   pattern="[a-z]([-a-z0-9]*[a-z0-9])?"
+                   placeholder="英文小写"
+                   required
+                   type="text">
+            <span class="tooltip-content">
+              服务名称不符合规范，验证规则[a-z]([-a-z0-9]*[a-z0-9])?
+            </span>
+          </label>
+          <span [hidden]="!checkOnGoing" class="spinner spinner-inline"></span>
+        </div>
+        <!--<div class="form-group" style="padding-left: 135px;">
+          <label class="clr-col-md-3 form-group-label-override required">机房</label>
+          <div *ngFor="let cluster of clusters" class="checkbox-inline" style="padding-right: 15px">
+            <input [(ngModel)]="clusterMetas[cluster.name].checked"
+                   id="{{cluster.name}}-check"
+                   name="{{cluster.name}}-check"
+                   type="checkbox">
+            <label for="{{cluster.name}}-check">{{cluster.name}}</label>
+          </div>
+        </div>-->
+        <div class="form-group" style="padding-left: 135px;">
+          <label class="clr-col-md-3 form-group-label-override" for="description">描述</label>
+          <textarea [(ngModel)]="resource.description" id="description"
+                    name="description"
+                    rows="3">
+          </textarea>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button (click)="onCancel()" class="btn btn-outline" type="button">取消</button>
+    <button (click)="onSubmit()" [disabled]="!isValid" class="btn btn-primary" type="button">提交</button>
+  </div>
+</clr-modal>

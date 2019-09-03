@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../../../shared/client/v1/app.service';
 import { AceEditorService } from '../../../../shared/ace-editor/ace-editor.service';
 import { MessageHandlerService } from '../../../../shared/message-handler/message-handler.service';
-import { ServiceService } from '../../../../../../lib/shared/client/v1/service.service';
-import { ServiceTplService } from '../../../../../../lib/shared/client/v1/servicetpl.service';
-import { Service } from '../../../../../../lib/shared/model/service';
-import { ServiceTpl } from '../../../../../../lib/shared/model/servicetpl';
 import { MigrationResource } from '../../../../shared/base/kubernetes-namespaced/migration-resource';
 import { KubernetesClient } from '../../../../shared/client/v1/kubernetes/kubernetes';
 import { KubeResourceService } from '../../../../shared/shared.const';
+import { ServiceService } from '../../../../shared/client/v1/service.service';
+import { ServiceTplService } from '../../../../shared/client/v1/servicetpl.service';
+import { Service } from '../../../../shared/model/v1/service';
+import { ServiceTpl } from '../../../../shared/model/v1/servicetpl';
 
 @Component({
   selector: 'kube-migration',

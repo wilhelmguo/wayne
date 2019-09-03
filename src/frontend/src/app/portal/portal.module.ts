@@ -30,8 +30,8 @@ import { BaseAppModule } from './base/base-app.module';
 import { PublishHistoryModule } from './common/publish-history/publish-history.module';
 import { TplDetailModule } from '../shared/tpl-detail/tpl-detail.module';
 import { MarkdownModule } from 'ngx-markdown';
-import { LibraryPortalModule } from '../../../lib/portal/library-portal.module';
 import { AutoscaleModule } from './autoscale/autoscale.module';
+import { ServiceModule } from './service/service.module';
 
 @NgModule({
   imports: [
@@ -41,6 +41,7 @@ import { AutoscaleModule } from './autoscale/autoscale.module';
     SharedModule,
     IndexModule,
     AppModule,
+    ServiceModule,
     DeploymentModule,
     ConfigMapModule,
     CronjobModule,
@@ -56,7 +57,6 @@ import { AutoscaleModule } from './autoscale/autoscale.module';
     BaseAppModule,
     TplDetailModule,
     PublishHistoryModule,
-    LibraryPortalModule,
     IngressModule,
     AutoscaleModule,
     MarkdownModule.forRoot(),

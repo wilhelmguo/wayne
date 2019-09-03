@@ -15,11 +15,11 @@ import { IngressService } from '../../../shared/client/v1/ingress.service';
 import { IngressTplService } from '../../../shared/client/v1/ingresstpl.service';
 import { AuthService } from '../../../shared/auth/auth.service';
 import { CreateEditResourceTemplate } from '../../../shared/base/resource/create-edit-resource-template';
-import { ServiceService } from '../../../../../lib/shared/client/v1/service.service';
-import { Service } from '../../../../../lib/shared/model/service';
 import { SecretService } from '../../../shared/client/v1/secret.service';
 import { Secret } from '../../../shared/model/v1/secret';
 import { IngressBackend, IngressPath, IngressRule } from '../../../shared/model/v1/kubernetes/ingress';
+import { ServiceService } from '../../../shared/client/v1/service.service';
+import { Service } from '../../../shared/model/v1/service';
 
 
 @Component({

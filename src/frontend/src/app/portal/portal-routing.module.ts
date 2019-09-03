@@ -35,9 +35,10 @@ import { PodLoggingComponent } from './pod-logging/pod-logging.component';
 import { NamespaceReportComponent } from './namespace-report/namespace-report.component';
 import { IngressComponent } from './ingress/ingress.component';
 import { CreateEditIngressTplComponent } from './ingress/create-edit-ingresstpl/create-edit-ingresstpl.component';
-import { PORTALROUTES } from '../../../lib/portal/library-routing-portal';
 import { AutoscaleComponent } from './autoscale/autoscale.component';
 import { CreateEditAutoscaletplComponent } from './autoscale/create-edit-autoscaletpl/create-edit-autoscaletpl.component';
+import { ServiceComponent } from './service/service.component';
+import { CreateEditServiceTplComponent } from './service/create-edit-servicetpl/create-edit-servicetpl.component';
 
 const routes: Routes = [
   {
@@ -99,7 +100,10 @@ const routes: Routes = [
           {path: 'autoscale/:resourceId', component: AutoscaleComponent},
           {path: 'autoscale/:resourceId/tpl', component: CreateEditAutoscaletplComponent},
           {path: 'autoscale/:resourceId/tpl/:tplId', component: CreateEditAutoscaletplComponent},
-          ...PORTALROUTES
+          {path: 'service', component: ServiceComponent},
+          {path: 'service/:serviceId', component: ServiceComponent},
+          {path: 'service/:serviceId/tpl', component: CreateEditServiceTplComponent},
+          {path: 'service/:serviceId/tpl/:tplId', component: CreateEditServiceTplComponent},
         ]
       },
     ]
