@@ -3,6 +3,7 @@ package client
 import (
 	"encoding/json"
 	"errors"
+	"strings"
 	"sync"
 	"time"
 
@@ -96,6 +97,39 @@ func BuildApiserverClient() {
 		logs.Info("resync cluster finished! ")
 	}
 
+	// 探测集群状态，并更新
+	for _, cluster := range newClusters {
+		manger, err := Manager(cluster.Name)
+		if err != nil {
+			logs.Error("Failed to get cluster(%s) manger.%v", cluster.Name, err)
+			continue
+		}
+
+		syncClusterStatus(&cluster, manger.Client)
+	}
+
+}
+
+func syncClusterStatus(cluster *models.Cluster, kubeClient *kubernetes.Clientset) {
+	var clusterStatus models.ClusterState
+	body, err := kubeClient.DiscoveryClient.RESTClient().Get().AbsPath("/healthz").Do().Raw()
+	if err != nil {
+		logs.Error("Failed to do cluster health check for cluster %s", cluster.Name)
+		clusterStatus = models.ClusterStatusOffline
+	} else {
+		if !strings.EqualFold(string(body), "ok") {
+			clusterStatus = models.ClusterStatusNotReady
+		} else {
+			clusterStatus = models.ClusterStatusReady
+		}
+	}
+
+	cluster.State = clusterStatus
+	err = models.ClusterModel.UpdateByName(cluster, "State", "LastProbeTime")
+	if err != nil {
+		logs.Error("Failed to update cluster(%s) status to %s", cluster.Name, clusterStatus)
+	}
+
 }
 
 // deal with deleted cluster
@@ -134,8 +168,8 @@ func clusterChanged(clusters []models.Cluster) bool {
 			logs.Info("cluster master (%s) changed to (%s).", manager.Cluster.Master, cluster.Master)
 			return true
 		}
-		if manager.Cluster.Status != cluster.Status {
-			logs.Info("cluster status (%d) changed to (%d).", manager.Cluster.Status, cluster.Status)
+		if manager.Cluster.State != cluster.State {
+			logs.Info("cluster status (%d) changed to (%d).", manager.Cluster.State, cluster.State)
 			return true
 		}
 
@@ -175,9 +209,6 @@ func Manager(cluster string) (*ClusterManager, error) {
 		}
 	}
 	manager := managerInterface.(*ClusterManager)
-	if manager.Cluster.Status == models.ClusterStatusMaintaining {
-		return nil, ErrMaintaining
-	}
 	return manager, nil
 }
 

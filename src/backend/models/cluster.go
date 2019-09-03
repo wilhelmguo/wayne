@@ -10,11 +10,15 @@ import (
 	"github.com/Qihoo360/wayne/src/backend/util/hack"
 )
 
-type ClusterStatus int32
+type ClusterState string
 
 const (
-	ClusterStatusNormal      ClusterStatus = 0
-	ClusterStatusMaintaining ClusterStatus = 1
+	// 就绪
+	ClusterStatusReady ClusterState = "Ready"
+	// 已启动但无法提供服务
+	ClusterStatusNotReady ClusterState = "NotReady"
+	// 离线
+	ClusterStatusOffline ClusterState = "Offline"
 
 	TableNameCluster = "cluster"
 )
@@ -24,6 +28,8 @@ type clusterModel struct{}
 type Cluster struct {
 	Id   int64  `orm:"auto" json:"id,omitempty"`
 	Name string `orm:"unique;index;size(128)" json:"name,omitempty"`
+	// 节点中文名称
+	Alias string `orm:"size(255)" json:"alias,omitempty"`
 	/*
 		   {
 			  "robin": {
@@ -65,9 +71,10 @@ type Cluster struct {
 	User        string     `orm:"size(128)" json:"user,omitempty"`
 	Deleted     bool       `orm:"default(false)" json:"deleted,omitempty"`
 	// the cluster status
-	Status ClusterStatus `orm:"default(0)" json:"status"`
-
-	MetaDataObj ClusterMetaData `orm:"-" json:"-"`
+	State ClusterState `orm:"size(100)" json:"state"`
+	// 最后探测时间
+	LastProbeTime *time.Time      `orm:"auto_now;type(datetime)" json:"lastProbeTime,omitempty"`
+	MetaDataObj   ClusterMetaData `orm:"-" json:"-"`
 }
 
 type ClusterMetaData struct {
@@ -118,7 +125,6 @@ func (*clusterModel) GetAllNormal() ([]Cluster, error) {
 	clusters := []Cluster{}
 	_, err := Ormer().
 		QueryTable(new(Cluster)).
-		Filter("Status", ClusterStatusNormal).
 		Filter("Deleted", false).
 		All(&clusters)
 
@@ -193,12 +199,12 @@ func (*clusterModel) GetById(id int64) (v *Cluster, err error) {
 
 // UpdateCluster updates Cluster by Name and returns error if
 // the record to be updated doesn't exist
-func (*clusterModel) UpdateByName(m *Cluster) (err error) {
+func (*clusterModel) UpdateByName(m *Cluster, cols ...string) (err error) {
 	v := Cluster{Name: m.Name}
 	// ascertain id exists in the database
 	if err = Ormer().Read(&v, "Name"); err == nil {
 		m.UpdateTime = nil
-		_, err = Ormer().Update(m)
+		_, err = Ormer().Update(m, cols...)
 		return err
 	}
 	return
