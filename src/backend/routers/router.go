@@ -7,6 +7,10 @@ import (
 	"net/http"
 	"path"
 
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/context"
+	"github.com/astaxie/beego/plugins/cors"
+
 	"github.com/Qihoo360/wayne/src/backend/controllers/apikey"
 	"github.com/Qihoo360/wayne/src/backend/controllers/app"
 	"github.com/Qihoo360/wayne/src/backend/controllers/appstarred"
@@ -48,14 +52,11 @@ import (
 	"github.com/Qihoo360/wayne/src/backend/controllers/publishstatus"
 	"github.com/Qihoo360/wayne/src/backend/controllers/pvc"
 	"github.com/Qihoo360/wayne/src/backend/controllers/secret"
+	"github.com/Qihoo360/wayne/src/backend/controllers/service"
 	"github.com/Qihoo360/wayne/src/backend/controllers/statefulset"
 	"github.com/Qihoo360/wayne/src/backend/controllers/webhook"
 	"github.com/Qihoo360/wayne/src/backend/health"
-	_ "github.com/Qihoo360/wayne/src/backend/plugins"
 	"github.com/Qihoo360/wayne/src/backend/util/hack"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
-	"github.com/astaxie/beego/plugins/cors"
 )
 
 func init() {
@@ -105,6 +106,14 @@ func init() {
 				&configmap.ConfigMapTplController{},
 			),
 		),
+		beego.NSNamespace("/apps/:appid([0-9]+)/services",
+			beego.NSInclude(
+				&service.ServiceController{},
+			)),
+		beego.NSNamespace("/apps/:appid([0-9]+)/services/tpls",
+			beego.NSInclude(
+				&service.ServiceTplController{},
+			)),
 		beego.NSNamespace("/apps/:appid([0-9]+)/cronjobs",
 			beego.NSInclude(
 				&cronjob.CronjobController{},

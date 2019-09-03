@@ -47,6 +47,8 @@ var (
 	IngressTemplateModel          *ingressTemplateModel
 	HPAModel                      *hpaModel
 	HPATemplateModel              *hpaTemplateModel
+	ServiceModel                  *serviceModel
+	ServiceTplModel               *serviceTplModel
 )
 
 func init() {
@@ -129,6 +131,8 @@ func init() {
 	IngressTemplateModel = &ingressTemplateModel{}
 	HPAModel = &hpaModel{}
 	HPATemplateModel = &hpaTemplateModel{}
+	ServiceModel = &serviceModel{}
+	ServiceTplModel = &serviceTplModel{}
 }
 
 // singleton init ormer ,only use for normal db operation
