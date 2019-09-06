@@ -32,6 +32,9 @@ func run(cmd *cobra.Command, args []string) {
 	// K8S Client
 	initial.InitClient()
 
+	// 确保命名空间被自动创建
+	initial.EnsureNamespaces()
+
 	// 初始化RabbitMQ
 	busEnable := beego.AppConfig.DefaultBool("BusEnable", false)
 	if busEnable {
