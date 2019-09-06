@@ -5,6 +5,8 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/astaxie/beego/orm"
+
 	"github.com/Qihoo360/wayne/src/backend/common"
 	"github.com/Qihoo360/wayne/src/backend/controllers/base"
 	"github.com/Qihoo360/wayne/src/backend/models"
@@ -78,23 +80,52 @@ func (c *NamespaceController) List() {
 		param.Query["name__contains"] = name
 	}
 
-	total, err := models.GetTotal(new(models.Namespace), param)
-	if err != nil {
-		logs.Error("get total count by param (%s) error. %v", param, err)
-		c.HandleError(err)
-		return
-	}
-	namespaces := []models.Namespace{}
+	if c.User.Admin {
+		total, err := models.GetTotal(new(models.Namespace), param)
+		if err != nil {
+			logs.Error("get total count by param (%s) error. %v", param, err)
+			c.HandleError(err)
+			return
+		}
+		namespaces := []models.Namespace{}
 
-	err = models.GetAll(new(models.Namespace), &namespaces, param)
-	if err != nil {
-		logs.Error("list by param (%s) error. %v", param, err)
-		c.HandleError(err)
-		return
+		err = models.GetAll(new(models.Namespace), &namespaces, param)
+		if err != nil {
+			logs.Error("list by param (%s) error. %v", param, err)
+			c.HandleError(err)
+			return
+		}
+		c.Success(param.NewPage(total, namespaces))
+	} else {
+		var namespaces []*models.Namespace
+		namespaceUsers := []models.NamespaceUser{}
+		cond := orm.NewCondition()
+		condNS := cond.And("User__Id__exact", c.User.Id)
+		_, err := models.Ormer().QueryTable(models.TableNameNamespaceUser).
+			SetCond(condNS).
+			RelatedSel("Namespace").
+			GroupBy("Namespace").
+			OrderBy("Namespace__Name").
+			All(&namespaceUsers)
+		if err != nil {
+			logs.Error("list by user (%s) error. %v", param, err)
+			c.HandleError(err)
+			return
+		}
+		for _, namespaceUser := range namespaceUsers {
+			namespaces = append(namespaces, namespaceUser.Namespace)
+		}
+		count := int64(len(namespaces))
+		start := (param.PageNo - 1) * param.PageSize
+		end := param.PageNo*param.PageSize - 1
+		if start > count {
+			start = count
+		}
+		if end > count {
+			end = count
+		}
+		c.Success(param.NewPage(int64(len(namespaces)), namespaces[start:end]))
 	}
-
-	c.Success(param.NewPage(total, namespaces))
-	return
 }
 
 // @Title Create
